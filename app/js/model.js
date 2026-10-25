@@ -152,3 +152,29 @@ export const fmtTime = (s, ms = true) => {
   const ss = ms ? sec.toFixed(1).padStart(4, '0') : String(Math.floor(sec)).padStart(2, '0');
   return `${m}:${ss}`;
 };
+
+// قوالب المونتاج الجاهزة
+export const STYLES = {
+  calm: { name: 'درس هادئ', desc: 'تلاشي ناعم، حركة بطيئة، 4 ثوانٍ للصورة', tr: { type: 'fade', dur: 0.8 }, motion: 'auto', filter: 'none', dur: 4, vignette: false },
+  reel: { name: 'ريل حيوي', desc: 'انتقالات سريعة متنوعة، زوم، 2 ثانية للصورة', tr: { type: 'zoom', dur: 0.4 }, mix: ['zoom', 'slide-l', 'wipe-l', 'push-r', 'circle'], motion: 'zoom-in', filter: 'vivid', dur: 2, vignette: false, whoosh: true },
+  cinema: { name: 'سينمائي', desc: 'عبور بالأسود، ألوان سينمائية، إطار داكن', tr: { type: 'black', dur: 1 }, motion: 'auto', filter: 'cinematic', dur: 4.5, vignette: true },
+  story: { name: 'قصة ووثائقي', desc: 'انتقال ضبابي، لون ذهبي دافئ، حركة كين برنز', tr: { type: 'blur', dur: 1 }, motion: 'auto', filter: 'gold', dur: 5, vignette: true },
+  clean: { name: 'بدون تأثيرات', desc: 'قطع مباشر وألوان أصلية', tr: { type: 'none', dur: 0 }, motion: 'none', filter: 'none', dur: 3, vignette: false },
+};
+
+export function applyStyle(p, k) {
+  const S = STYLES[k];
+  if (!S) return false;
+  p.styleKey = k;
+  p.defaultTr = { ...S.tr };
+  p.defaultImageDur = S.dur;
+  p.defaultFilter = S.filter;
+  p.vignette = S.vignette;
+  if (S.whoosh != null) p.settings.whoosh = S.whoosh;
+  p.clips.forEach((c, i) => {
+    if (i > 0) c.transition = S.mix ? { type: S.mix[(i - 1) % S.mix.length], dur: S.tr.dur } : { ...S.tr };
+    if (c.type === 'image') { c.dur = S.dur; c.motion = S.motion; }
+    c.filter = S.filter;
+  });
+  return true;
+}
