@@ -8,6 +8,7 @@ import { Panels } from './panels.js';
 import { h, toast } from './dom.js';
 import { exportCapabilities, exportBrowser, exportRecorder, exportPro, serverHealth } from './export.js';
 import { loadFonts } from './textfx.js';
+import { Assistant } from './assistant.js';
 
 const $ = (s) => document.querySelector(s);
 
@@ -19,6 +20,7 @@ class App {
     this.timeline = new Timeline($('#timeline'), this.store, this.player, this.media);
     this.panels = new Panels(this);
     this.server = null;
+    this.assistant = new Assistant(this);
 
     this.bindTop();
     this.bindTransport();

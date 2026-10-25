@@ -1,6 +1,6 @@
 // اللوحات الجانبية ولوحة الخصائص
 import { h, rangeField, selectField, textField, colorField, toggleField, pillsField, toast, fmtSec, fmtPct } from './dom.js';
-import { newClip, newText, newAudio, TEXT_PRESETS, layoutClips, projectDuration, audioLength, clipLength, fmtTime, clamp } from './model.js';
+import { newClip, newText, newAudio, TEXT_PRESETS, STYLES, applyStyle, layoutClips, projectDuration, audioLength, clipLength, fmtTime, clamp } from './model.js';
 import { TRANSITIONS, MOTIONS, FITS, FILTERS } from './renderer.js';
 import { TEXT_ANIMS, TEXT_BOXES, TEXT_DECOS, FONTS } from './textfx.js';
 import { fixTransitions } from './timeline.js';
@@ -330,30 +330,10 @@ export class Panels {
   styleTab() {
     const { store } = this.app;
     const p = store.project;
-    const STYLES = {
-      calm: { name: 'درس هادئ', desc: 'تلاشي ناعم، حركة بطيئة، 4 ثوانٍ للصورة', tr: { type: 'fade', dur: 0.8 }, motion: 'auto', filter: 'none', dur: 4, vignette: false },
-      reel: { name: 'ريل حيوي', desc: 'انتقالات سريعة متنوعة، زوم، 2 ثانية للصورة', tr: { type: 'zoom', dur: 0.4 }, mix: ['zoom', 'slide-l', 'wipe-l', 'push-r', 'circle'], motion: 'zoom-in', filter: 'vivid', dur: 2, vignette: false, whoosh: true },
-      cinema: { name: 'سينمائي', desc: 'عبور بالأسود، ألوان سينمائية، إطار داكن', tr: { type: 'black', dur: 1 }, motion: 'auto', filter: 'cinematic', dur: 4.5, vignette: true },
-      story: { name: 'قصة ووثائقي', desc: 'انتقال ضبابي، لون ذهبي دافئ، حركة كين برنز', tr: { type: 'blur', dur: 1 }, motion: 'auto', filter: 'gold', dur: 5, vignette: true },
-      clean: { name: 'بدون تأثيرات', desc: 'قطع مباشر وألوان أصلية', tr: { type: 'none', dur: 0 }, motion: 'none', filter: 'none', dur: 3, vignette: false },
-    };
     const apply = (k) => {
-      const S = STYLES[k];
-      this.upd((pp) => {
-        pp.styleKey = k;
-        pp.defaultTr = { ...S.tr };
-        pp.defaultImageDur = S.dur;
-        pp.defaultFilter = S.filter;
-        pp.vignette = S.vignette;
-        if (S.whoosh != null) pp.settings.whoosh = S.whoosh;
-        pp.clips.forEach((c, i) => {
-          if (i > 0) c.transition = S.mix ? { type: S.mix[(i - 1) % S.mix.length], dur: S.tr.dur } : { ...S.tr };
-          if (c.type === 'image') { c.dur = S.dur; c.motion = S.motion; }
-          c.filter = S.filter;
-        });
-      });
+      this.upd((pp) => applyStyle(pp, k));
       this.renderTab();
-      toast(`طُبّق قالب «${S.name}»`);
+      toast(`طُبّق قالب «${STYLES[k].name}»`);
     };
     const bg = p.audio.find((a) => a.role === 'bg');
     const fitToAudio = () => {
