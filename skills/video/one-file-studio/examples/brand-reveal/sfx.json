@@ -1,0 +1,97 @@
+[
+ {
+  "name": "sizzle",
+  "text": "Close-up sizzle of steak hitting a hot charcoal grill, crisp crackling, sharp attack",
+  "seconds": 1.6
+ },
+ {
+  "name": "rewind",
+  "text": "VHS tape rewinding fast, mechanical whir with a pitched warble, retro",
+  "seconds": 0.8
+ },
+ {
+  "name": "ignite",
+  "text": "A match strike igniting into a warm soft fire whoosh, close and intimate",
+  "seconds": 1.0
+ },
+ {
+  "name": "draw_tech",
+  "text": "Delicate futuristic interface line-drawing shimmer, clean digital sweep, soft",
+  "seconds": 1.2
+ },
+ {
+  "name": "flame_burst",
+  "text": "Short punchy flame burst whoosh, gas burner igniting",
+  "seconds": 0.7
+ },
+ {
+  "name": "fire_roar",
+  "text": "Fire whoosh flaring up into a big roar then settling, cinematic",
+  "seconds": 1.3
+ },
+ {
+  "name": "board_thud",
+  "text": "A wooden menu board dropped onto a metal counter, solid short thud",
+  "seconds": 0.5
+ },
+ {
+  "name": "camera_hit",
+  "text": "Camera shutter click layered with a short punchy cinematic hit",
+  "seconds": 0.5
+ },
+ {
+  "name": "fire_sweep",
+  "text": "Burning fuse sweeping quickly left to right, crackling sparks and a fast whoosh",
+  "seconds": 1.0
+ },
+ {
+  "name": "land_bonk",
+  "text": "Cute cartoon character landing on the ground, soft rubbery bonk",
+  "seconds": 0.5
+ },
+ {
+  "name": "block_clack",
+  "text": "A single small wooden toy block dropping onto a wooden table, light clack",
+  "seconds": 0.5
+ },
+ {
+  "name": "boing",
+  "text": "Short cute cartoon spring boing",
+  "seconds": 0.5
+ },
+ {
+  "name": "card_flip",
+  "text": "Quick playing card flip whoosh with a crisp snap",
+  "seconds": 0.5
+ },
+ {
+  "name": "cash_stamp",
+  "text": "Rubber stamp slammed hard on paper followed by a cash register cha-ching",
+  "seconds": 1.0
+ },
+ {
+  "name": "surprise",
+  "text": "Short cartoon surprise pop",
+  "seconds": 0.5
+ },
+ {
+  "name": "boom",
+  "text": "Deep cinematic sub boom impact with a short dark tail",
+  "seconds": 1.4
+ },
+ {
+  "name": "zap",
+  "text": "Tiny electric zap connecting with a little sparkle, very short",
+  "seconds": 0.5
+ },
+ {
+  "name": "amb_night",
+  "text": "Warm desert night ambience in a quiet street: crickets, distant traffic hum, a light breeze, no voices, steady and loopable",
+  "seconds": 10
+ },
+ {
+  "name": "amb_fire",
+  "text": "Close charcoal grill fire crackling and popping softly, steady and loopable, no voices",
+  "seconds": 10
+ }
+]

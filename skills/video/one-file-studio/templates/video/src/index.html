@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>One File Studio composition</title>
+<link rel="stylesheet" href="style.css">
+</head><body><div id="root">
+  <div id="scenes" class="layer"></div>
+  <img id="seq" class="layer" alt="" style="visibility:hidden">
+  <div id="hud" class="layer"></div>
+  <div id="flash" class="layer"></div>
+  <div id="vig" class="layer"></div>
+  <canvas id="grain" class="layer"></canvas>
+</div>
+<!-- bash scripts/get_vendor.sh <project> downloads gsap (and three) into assets/vendor -->
+<script src="../assets/vendor/gsap.min.js"></script>
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="scenes/example.js"></script>
+<script src="boot.js"></script>
+</body></html>

@@ -1,0 +1,12 @@
+node_modules/
+*.mov
+*.mp4
+.DS_Store
+majed-video.plugin
+!video-ad-editor/motion/moves/previews/*.mp4
+dist/
+# أدوات سويفت تنبني محلياً من ملفات .swift (03_cut_zoom.py يبني hdr2sdr) — ما تدخل المستودع ولا الإصدار
+video-ad-editor/scripts/hdr2sdr
+video-ad-editor/scripts/facetrack
+# deep-filter بايناري ينزل محلياً (--extras) — ما يدخل المستودع
+video-ad-editor/bin/

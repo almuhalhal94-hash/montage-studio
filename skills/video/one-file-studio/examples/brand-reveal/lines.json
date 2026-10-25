@@ -1,0 +1,46 @@
+{
+ "voice_id": "FGY2WhTYpPnrIDTdsKH5",
+ "voice_name": "Laura (ElevenLabs premade; pick your own)",
+ "takes": 3,
+ "stability": 0.0,
+ "style": 0.3,
+ "speed": 1.0,
+ "lines": [
+  {
+   "id": "hook",
+   "text": "[curious] This taco truck... had no name. [pause] No logo. [sighs] Nothing."
+  },
+  {
+   "id": "gave",
+   "text": "[mischievously] So I gave Claude... one sentence."
+  },
+  {
+   "id": "built",
+   "text": "[excited] And it built the ENTIRE brand!"
+  },
+  {
+   "id": "list",
+   "text": "[building excitement] A logo. Colors that feel like fire! A menu. Cups. Bags. [amazed] A website."
+  },
+  {
+   "id": "truck",
+   "text": "[gasps] Even the TRUCK."
+  },
+  {
+   "id": "reveal",
+   "text": "[whispers] Every piece of this... came from one prompt."
+  },
+  {
+   "id": "video",
+   "text": "[whispers] Even this video."
+  },
+  {
+   "id": "cta",
+   "text": "[warmly] Want it for your business? [playfully] Follow me, and comment PROMPT. I'll send it to your DMs."
+  },
+  {
+   "id": "free",
+   "text": "[urgently] The first fifty get it free. [seriously] After that... it's paid."
+  }
+ ]
+}

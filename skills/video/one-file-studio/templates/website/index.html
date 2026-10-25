@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- PLUMBING ONLY. The look comes from the Website flow (references/websites.md): three directions shown as hero mockups,
+     the chosen tokens below, one signature interaction built from this business's real facts. Never ship this as-is. -->
+<title>Business Name | What they do in City</title><!-- 50-60 characters -->
+<meta name="description" content="One answer-first sentence: what they do, where, and the one reason to choose them. 140-160 characters.">
+<link rel="canonical" href="https://example.com/">
+<meta property="og:title" content="Business Name"><meta property="og:image" content="img/og.jpg"><!-- 1200x630 crop of the real hero -->
+<meta name="robots" content="noindex"><!-- previews only: remove on the live site -->
+<style>
+  /* tokens: 4-6 named colors, 2-3 faces, chosen in step 3 */
+  :root { --ink: #121010; --paper: #F3E6D0; --accent: #FF5B1F; --accent-2: #FFB020; --mute: #8C7F76;
+          --display: 'Your Display Face', serif; --text: 'Your Text Face', system-ui, sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; } html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; font-family: var(--text); color: var(--ink); background: var(--paper); }
+  img { max-width: 100%; height: auto; display: block; }            /* height:auto, or photos stretch into strips */
+  .wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }   /* site_check.mjs measures overflow against .wrap */
+  /* reveal on scroll, with a safety net and reduced motion */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } * { animation: none !important; } }
+  /* the call / book control: part of the identity, redesign it per site; on mobile it lives in the first screen */
+  .dock { position: fixed; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 8px; z-index: 50; }
+  .dock a { flex: 1; min-height: 52px; display: grid; place-items: center; border-radius: 14px; font-weight: 700; text-decoration: none; }
+  @media (min-width: 900px) { .dock { left: auto; width: 360px; } }
+  .hp { position: absolute; left: -9999px; }                          /* honeypot */
+</style>
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "LocalBusiness", "name": "Business Name", "telephone": "+1-000-000-0000",
+  "address": { "@type": "PostalAddress", "streetAddress": "", "addressLocality": "", "addressRegion": "", "postalCode": "" },
+  "url": "https://example.com/", "image": "https://example.com/img/og.jpg", "openingHours": "Mo-Fr 09:00-17:00" }
+</script>
+</head>
+<body>
+<header class="wrap"><!-- logo (their real mark), nav, the tel link visible in the first mobile screen --></header>
+<main>
+  <section class="hero"><div class="wrap"><h1>One h1: what they do, for whom, where.</h1><!-- hero model A (photo-first) or B (type-first) --></div></section>
+  <section class="wrap reveal"><!-- proof: real, attributed reviews or nothing --></section>
+  <section class="wrap reveal"><!-- offer / menu / services with real prices or "we call with the number" --></section>
+  <section class="wrap reveal"><!-- THE signature interaction, built from this business's facts (spent once, never reused) --></section>
+  <section class="wrap reveal"><h2>Question-style heading?</h2><p>Answer-first paragraph.</p><!-- FAQ: 6 real questions --></section>
+  <section class="wrap reveal" id="book">
+    <form name="contact" method="POST" action="/thanks.html"><!-- Netlify: add data-netlify="true"; test a real submission end to end -->
+      <input class="hp" name="company_url" tabindex="-1" autocomplete="off">
+      <label>Name <input name="name" required></label> <label>Phone <input name="phone" type="tel" required></label>
+      <label>What do you need? <textarea name="note"></textarea></label>
+      <label><input type="checkbox" name="consent" required> OK to text or call me about this request.</label>
+      <button type="submit">Request an estimate</button>
+    </form>
+  </section>
+</main>
+<footer class="wrap"><!-- hours, address with a map link, license number from the state record --></footer>
+<nav class="dock"><a href="tel:+10000000000">Call</a><a href="#book">Book</a></nav>
+<script>
+  // reveal on scroll + a 2.5 s force-reveal safety net (screenshots, slow devices, blocked observers)
+  const els = document.querySelectorAll('.reveal');
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' }) : null;
+  els.forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  setTimeout(() => els.forEach(el => el.classList.add('in')), 2500);
+</script>
+</body>
+</html>

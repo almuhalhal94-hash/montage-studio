@@ -1,0 +1,2 @@
+Space Grotesk, Copyright 2020 The Space Grotesk Project Authors (https://github.com/floriankarsten/space-grotesk).
+Licensed under the SIL Open Font License, Version 1.1 (https://openfontlicense.org). Included unmodified for use in renders.

@@ -1,0 +1,51 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>3D layer</title>
+<style>html, body { margin: 0; background: transparent; } canvas { display: block; }</style>
+</head><body><canvas id="c" width="1920" height="1080"></canvas>
+<script src="../../assets/vendor/three.min.js"></script>
+<script>
+// One File Studio 3D starter: a soft vinyl-toy character (your own design, edit freely) that drops in, squashes, blinks,
+// looks around and waves. Pure function of t. Render it with:
+//   node scripts/webgl_frames.mjs --page src/three/scene.html --from 0 --to 4 --fps 30 --out cache/three
+// then play cache/three/*.png as the #seq layer in the main composition (see references/video-3d.md).
+(async () => {
+  const T0 = 0.2, LAND = 0.55, END = 4.0;                        // replace with anchors from your voice timing
+  const cv = document.getElementById('c');
+  const R = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, preserveDrawingBuffer: true });
+  R.setPixelRatio(1); R.setSize(1920, 1080, false); R.setClearColor(0x000000, 0);
+  R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap; R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.NoToneMapping;
+  const S = new THREE.Scene(), cam = new THREE.PerspectiveCamera(30, 16 / 9, .1, 400); cam.position.set(0, 9, 40); cam.lookAt(0, 4, 0);
+  S.add(new THREE.HemisphereLight(0xfff1e2, 0x3a2016, .72));
+  const key = new THREE.DirectionalLight(0xfff0dc, 1.38); key.position.set(-14, 26, 20); key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
+  Object.assign(key.shadow.camera, { left: -25, right: 25, top: 25, bottom: -25, near: 1, far: 90 }); key.shadow.radius = 6; S.add(key);
+  const rim = new THREE.DirectionalLight(0xff9256, 1.1); rim.position.set(18, 10, -16); S.add(rim);
+  const fill = new THREE.DirectionalLight(0xffd9c0, .3); fill.position.set(10, 6, 24); S.add(fill);
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.ShadowMaterial({ opacity: .42 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; S.add(ground);
+  // rounded box: an extruded rounded rectangle with a round bevel (soft toy, not a voxel wall)
+  const rbox = (w, h, d, r) => { const s = new THREE.Shape(), x0 = -w / 2 + r, y0 = -h / 2 + r, x1 = w / 2 - r, y1 = h / 2 - r;
+    s.moveTo(x0, -h / 2); s.absarc(x0, y0, r, -Math.PI / 2, Math.PI, true); s.lineTo(-w / 2, y1); s.absarc(x0, y1, r, Math.PI, Math.PI / 2, true);
+    s.lineTo(x1, h / 2); s.absarc(x1, y1, r, Math.PI / 2, 0, true); s.lineTo(w / 2, y0); s.absarc(x1, y0, r, 0, -Math.PI / 2, true);
+    const g = new THREE.ExtrudeGeometry(s, { depth: d - 2 * r, bevelEnabled: true, bevelThickness: r, bevelSize: 0, bevelSegments: 6, curveSegments: 8 }); g.translate(0, 0, -(d - 2 * r) / 2); g.computeVertexNormals(); return g; };
+  const MAT = c => new THREE.MeshStandardMaterial({ color: c, roughness: .52 }), BODY = MAT(0x2FB36B), DARK = new THREE.MeshStandardMaterial({ color: 0x14100e, roughness: .25 });
+  const crit = new THREE.Group(), body = new THREE.Group(); crit.add(body); S.add(crit);
+  const part = (g, m, x, y, z, p = body) => { const o = new THREE.Mesh(g, m); o.position.set(x, y, z); o.castShadow = o.receiveShadow = true; p.add(o); return o; };
+  part(rbox(9, 8, 6, .9), BODY, 0, 6, 0);                                   // body
+  [-2.6, 2.6].forEach(x => part(rbox(1.3, 2.6, 2, .35), BODY, x, 1.3, 0));   // legs
+  const armR = new THREE.Group(); armR.position.set(4.6, 6, 0); body.add(armR); part(rbox(2.2, 1.6, 2.4, .5), BODY, 1, 0, 0, armR);
+  part(rbox(2.2, 1.6, 2.4, .5), BODY, -5.6, 6, 0);
+  const lids = [-1.8, 1.8].map(x => { part(rbox(1.2, 1.9, .6, .2), DARK, x, 7.2, 2.88); const l = part(rbox(1.35, 2.0, .5, .2), BODY, x, 7.2, 3.04); l.userData.y = 7.2; return l; });
+  const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), ss = x => { x = cl(x); return x * x * (3 - 2 * x); };
+  window.renderAt = t => {
+    let y = 0, sq = 0;
+    if (t < LAND) { const u = cl((t - T0) / (LAND - T0)); y = 16 * (1 - u * u); }
+    const l = t - LAND; if (l >= 0) sq = Math.exp(-6 * l) * Math.cos(10 * l) * .26;
+    crit.position.set(0, y, 0); crit.rotation.y = .35 * Math.sin(t * 1.3) * ss((t - 1) / .5);
+    crit.scale.set(1 + sq * .6, 1 - sq + .018 * Math.sin(t * 4.2), 1 + sq * .6);
+    const bl = [LAND + .6, 2.4].reduce((m, b) => { const u = (t - b) / .16; return Math.max(m, u > 0 && u < 1 ? Math.sin(Math.PI * u) : 0); }, 0);
+    lids.forEach(l => { l.scale.set(1, Math.max(.001, bl), 1); l.position.y = l.userData.y + 1.0 * (1 - bl); l.visible = bl > .02; });
+    const wv = ss((t - 2.6) / .25); armR.rotation.z = wv * (1.1 + .5 * Math.sin(t * 14));
+    R.render(S, cam); return cv.toDataURL('image/png');
+  };
+  window.__ready = true;
+})().catch(e => { window.__err = String(e && e.stack || e); window.__ready = true; });
+</script></body></html>
