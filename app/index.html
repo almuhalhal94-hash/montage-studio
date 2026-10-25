@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>استوديو المونتاج</title>
+<meta name="description" content="استوديو مونتاج عربي: ارفع صورك ومقاطعك وأصواتك، رتّبها، أضف نصوصاً متحركة وانتقالات، وعاين قبل التصدير.">
+<meta name="theme-color" content="#0d0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d0f14'/%3E%3Cpath d='M32 10l6 8 10-2-2 10 8 6-8 6 2 10-10-2-6 8-6-8-10 2 2-10-8-6 8-6-2-10 10 2z' fill='none' stroke='%23f5c451' stroke-width='3'/%3E%3Cpath d='M27 25v14l12-7z' fill='%23f5c451'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;500;700;800;900&family=Changa:wght@500;700;800&family=El+Messiri:wght@500;700&family=Lalezar&family=Marhey:wght@500;700&family=Noto+Kufi+Arabic:wght@500;700;900&family=Readex+Pro:wght@400;500;700&family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6l7 9 11-2-2 11 9 8-9 8 2 11-11-2-7 9-7-9-11 2 2-11-9-8 9-8-2-11 11 2z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round"/><path d="M27 24v16l13-8z" fill="currentColor"/></svg>
+      <span>استوديو المونتاج</span>
+    </div>
+    <input id="projName" class="proj-name" aria-label="اسم المشروع">
+    <div class="seg" id="aspectSeg" role="group" aria-label="المقاس"></div>
+    <div class="top-actions">
+      <button class="icon-btn" id="undoBtn" title="تراجع (Ctrl+Z)" aria-label="تراجع"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5M4 9h10a6 6 0 010 12h-3"/></svg></button>
+      <button class="icon-btn" id="redoBtn" title="إعادة (Ctrl+Shift+Z)" aria-label="إعادة"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5M20 9H10a6 6 0 000 12h3"/></svg></button>
+      <button class="icon-btn" id="menuBtn" title="المشروع" aria-label="قائمة المشروع"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></button>
+      <button class="btn primary" id="exportBtn"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>تصدير</span></button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="panel" id="panel">
+      <nav class="tabs" id="tabs">
+        <button data-tab="media" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg><span>الوسائط</span></button>
+        <button data-tab="text"><svg viewBox="0 0 24 24"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg><span>النصوص</span></button>
+        <button data-tab="trans"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="9" height="12" rx="1.5"/><rect x="13" y="6" width="9" height="12" rx="1.5"/><path d="M9 12h6"/></svg><span>انتقالات</span></button>
+        <button data-tab="audio"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span>الصوت</span></button>
+        <button data-tab="style"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg><span>قوالب</span></button>
+      </nav>
+      <div class="tab-body" id="tabBody"></div>
+    </aside>
+
+    <section class="stage">
+      <div class="preview-wrap" id="previewWrap">
+        <canvas id="preview"></canvas>
+        <div class="drop-hint" id="dropHint">أفلت الملفات هنا</div>
+      </div>
+      <div class="transport">
+        <span class="time" id="timeNow">0:00.0</span>
+        <div class="tp-btns">
+          <button class="icon-btn" id="toStart" title="البداية" aria-label="البداية"><svg viewBox="0 0 24 24"><path d="M6 5v14M18 6l-9 6 9 6z"/></svg></button>
+          <button class="icon-btn" id="stepBack" title="فريم للخلف" aria-label="فريم للخلف"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="play" id="playBtn" aria-label="تشغيل"><svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg></button>
+          <button class="icon-btn" id="stepFwd" title="فريم للأمام" aria-label="فريم للأمام"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+          <button class="icon-btn" id="safeBtn" title="مناطق أمان انستقرام" aria-label="مناطق الأمان"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M5 6h14M5 17h14" stroke-dasharray="2 2"/></svg></button>
+          <button class="icon-btn" id="fullBtn" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        </div>
+        <span class="time dim" id="timeTotal">0:00.0</span>
+      </div>
+    </section>
+
+    <aside class="inspector" id="inspector"></aside>
+  </main>
+
+  <section class="timeline-wrap">
+    <div class="tl-toolbar">
+      <button class="chip" id="splitBtn" title="قص عند المؤشر (S)"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg>قص هنا</button>
+      <button class="chip" id="dupBtn" title="تكرار (D)"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"/></svg>تكرار</button>
+      <button class="chip danger" id="delBtn" title="حذف (Delete)"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>حذف</button>
+      <span class="sp"></span>
+      <button class="icon-btn sm" id="zoomOut" aria-label="تصغير"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+      <button class="chip" id="zoomFit">ملاءمة</button>
+      <button class="icon-btn sm" id="zoomIn" aria-label="تكبير"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <nav class="mobile-nav" id="mobileNav">
+    <button data-sheet="media"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>وسائط</button>
+    <button data-sheet="text"><svg viewBox="0 0 24 24"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg>نصوص</button>
+    <button data-sheet="trans"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="9" height="12" rx="1.5"/><rect x="13" y="6" width="9" height="12" rx="1.5"/></svg>انتقال</button>
+    <button data-sheet="audio"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>صوت</button>
+    <button data-sheet="style"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg>قوالب</button>
+    <button data-sheet="inspector"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>خصائص</button>
+  </nav>
+  <div class="sheet-backdrop" id="sheetBackdrop"></div>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="icon-btn modal-x" id="modalX" aria-label="إغلاق"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="fileInput" multiple accept="image/*,video/*,audio/*" hidden>
+<input type="file" id="projInput" accept=".json,application/json" hidden>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
